@@ -1,7 +1,6 @@
 import hre from 'hardhat'
 import { Config, readConfig, writeConfig } from '../config/config'
 
-
 async function main() {
   const [deployer] = await hre.ethers.getSigners()
   let config: Config = {}
@@ -14,7 +13,7 @@ async function main() {
     if (netConfig !== undefined) {
       config = netConfig
     }
-  }).catch((err: any) => {
+  }).catch((err) => {
     console.error(err)
     process.exit(1)
   })
@@ -32,33 +31,36 @@ async function main() {
   let lanceToken721, lanceToken20
 
   if (config.LanceToken721 === undefined) {
-    console.log('deploying LanceToken721 ... ... ')
-    lanceToken721 = await LanceToken721.deploy()
-    console.log('deploying LanceToken721 ... ... 222')
-
-    await lanceToken721.deployed()
-    console.log('LanceToken721 deployed to:', lanceToken721.address)
-    config.LanceToken721 = lanceToken721.address
-    writeConfig(config)
-    await lanceToken721.mint(deployer.address, '1000000000000000000')
-    await lanceToken721.burn('1000000000000000000')
-    await lanceToken721.pause()
+    throw new Error('LanceToken721 is not deployed')
   } else {
+    console.log('\nVerifying TestLP', config.LanceToken721)
     lanceToken721 = LanceToken721.attach(config.LanceToken721)
-    await lanceToken721.mint(deployer.address, '1000000000000000000')
-    await lanceToken721.burn('1000000000000000000')
-    await lanceToken721.pause()
+    try {
+      await hre.run('verify:verify', {
+        address: lanceToken721.address,
+        constructorArguments: [
+        ],
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   if (config.LanceToken20 === undefined) {
-    console.log('deploying LanceToken20 ... ... ')
-    lanceToken20 = await LanceToken20.deploy()
-    await lanceToken20.deployed()
-    console.log('lanceToken20 deployed to:', lanceToken20.address)
-    config.LanceToken20 = lanceToken20.address
-    writeConfig(config)
+    throw new Error('LanceToken20 is not deployed')
   } else {
+    console.log('\nVerifying LanceToken20', config.LanceToken20)
     lanceToken20 = LanceToken20.attach(config.LanceToken20)
+    try {
+      await hre.run('verify:verify', {
+        address: lanceToken20.address,
+        contract: 'contracts/LanceToken20.sol:LanceToken20',
+        constructorArguments: [
+        ],
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 

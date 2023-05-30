@@ -1,3 +1,10 @@
 {
-	"Networks": []
+	"Networks": [
+		{
+			"Name": "goerli",
+			"Deployer": "0x4062B8Ce9548614FCCC08ae9bE3F8fC615a8b80e",
+			"LanceToken721": "0xa65BA5CF5a7381D8285b50139220592dd5f31343",
+			"LanceToken20": "0x32102C4500AF75b017187e10F8DE6C20c976677d"
+		}
+	]
 }
