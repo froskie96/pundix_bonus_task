@@ -32,10 +32,11 @@ async function main() {
   let lanceToken721, lanceToken20
 
   if (config.LanceToken721 === undefined) {
+    console.log('deploying LanceToken721 ... ... ')
     lanceToken721 = await LanceToken721.deploy()
     await lanceToken721.deployed()
-    console.log('LanceToken721 deployed to:', await lanceToken721.getAddress())
-    config.LanceToken721 = await lanceToken721.getAddress()
+    console.log('LanceToken721 deployed to:', lanceToken721.address)
+    config.LanceToken721 = lanceToken721.address
     await lanceToken721.mint(deployer.address, '1000000000000000000')
     await lanceToken721.burn('1000000000000000000')
     await lanceToken721.pause()
@@ -48,9 +49,11 @@ async function main() {
   }
 
   if (config.LanceToken20 === undefined) {
+    console.log('deploying LanceToken20 ... ... ')
+    lanceToken721 = await LanceToken721.deploy()
     lanceToken20 = await LanceToken20.deploy()
     await lanceToken20.deployed()
-    console.log('lanceToken20 deployed to:', await lanceToken20.getAddress())
+    console.log('lanceToken20 deployed to:', lanceToken20.address)
     writeConfig(config)
   } else {
     lanceToken20 = LanceToken20.attach(config.LanceToken20)
