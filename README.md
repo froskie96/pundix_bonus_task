@@ -34,7 +34,7 @@ This is the endpoint I tried to use
 ```
 https://fx-rest.functionx.io/cosmos/distribution/v1beta1/validators/{address}/commission
 ```
-It expects a address prefixed with fxvaloper. 
+It expects an address prefixed with fxvaloper. 
 The validator addresses I received are from these two endpoints
 ```
 https://fx-json.functionx.io/validators
